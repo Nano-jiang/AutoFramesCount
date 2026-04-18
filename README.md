@@ -52,7 +52,7 @@
 
 ## 💾 Demo 数据下载
 由于示例数据集较大（约 2GB），未直接上传至 GitHub 仓库。请通过以下链接下载：
-* **下载链接**：[百度网盘 - Demos.rar](https://pan.baidu.com/s/1NRketc98rKlxwb4p-p6yFw?pwd=nf82) 
+* **下载链接**：[夸克网盘 - Demos.rar](https://pan.quark.cn/s/0e61bcd29a66) 
 * **提取码**：`nf82`
 > **注意**：下载后请将 `Demos.rar` 解压，并确保 `Demos` 文件夹位于项目的根目录下，以便程序能够正确识别路径。
 
