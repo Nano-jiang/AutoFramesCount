@@ -13,6 +13,6 @@
 4. 框选 T-迷宫，并依次选择 起始盒 bowl-o，左臂末端 bowl-left 和 右臂末端 bowl-right
 <img width="552" height="560" alt="Tmaze_devision-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/3bf9a9d7-bbc7-4780-8200-ee47c20b5f4f" />
 5. 在命令行窗口切换到 小鼠头部红色LED 出现的帧，尽量准确地选择范围
-![Uploading 小鼠追踪.gif…]()
+<img width="552" height="560" alt="小鼠追踪" src="https://github.com/user-attachments/assets/ce2a4425-734b-449e-a9c4-3dfeb18833c8" />
 6. 框选T-迷宫分岔口的物体，接下来将自动解析
 <img width="546" height="554" alt="框选物体" src="https://github.com/user-attachments/assets/5c617138-9b8b-4fc6-a87c-cc5e606528f4" />
