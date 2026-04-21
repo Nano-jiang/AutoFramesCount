@@ -162,6 +162,6 @@ figure
 plot(x_smoothed, y_smoothed);
 
 %%
-save("mouseTrajectory.mat","positions","positions_smoothed");
-movefile('mouseTrajectory.mat', 'FrameCount2');
+% save("mouseTrajectory.mat","positions","positions_smoothed");
+% movefile('mouseTrajectory.mat', 'FrameCount2');
 
