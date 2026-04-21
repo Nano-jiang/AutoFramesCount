@@ -1,42 +1,46 @@
 %% Behavior Table Generator
 
+%% 1. 生成初始 zoneLabel
 mousePositions = positions_smoothed;
-
-TotalFrames = size(mousePositions,1);
-
-% mousePositions = behav.position;
-% 
-% TotalFrames = size(mousePositions,1);
-
-
-%%
-zoneLabel = [];
-
+TotalFrames = size(mousePositions, 1);
+zoneLabel = strings(TotalFrames, 1); % 使用 string 数组比 vertcat 快得多
 for i = 1:TotalFrames
-   mousePositionX = mousePositions(i,1);
-   mousePositionY = mousePositions(i,2);
-
-   % 给不同的zone贴标签
-   if (mousePositionY > boundary_S1S2)
-       if mousePositionY > boundary_S1
-           zoneLabel = vertcat(zoneLabel,"S1 Terminal");
-       else
-           zoneLabel = vertcat(zoneLabel,"S1");
-       end
-   
-   elseif (mousePositionY <= boundary_S1S2) && (mousePositionY >= boundary_S2S3)
-       zoneLabel = vertcat(zoneLabel,"S2");
-   
-   elseif (mousePositionY < boundary_S2S3)
-       if (mousePositionX < boundary_S3left)
-           zoneLabel = vertcat(zoneLabel,"S3 Lefterminal");
-       elseif (mousePositionX > boundary_S3right)
-           zoneLabel = vertcat(zoneLabel,"S3 Righterminal");
-       else
-           zoneLabel = vertcat(zoneLabel,"S3");
-       end
-   end
+    mX = mousePositions(i,1);
+    mY = mousePositions(i,2);
+    
+    if mY > boundary_S1S2
+        zoneLabel(i) = "S1";
+    elseif (mY <= boundary_S1S2) && (mY >= boundary_S2S3)
+        zoneLabel(i) = "S2";
+    elseif (mY < boundary_S2S3)
+        if (mX < boundary_S3left)
+            zoneLabel(i) = "S3 Lefterminal";
+        elseif (mX > boundary_S3right)
+            zoneLabel(i) = "S3 Righterminal";
+        else
+            zoneLabel(i) = "S3";
+        end
+    end
 end
+%% 2. 步骤1：清洗数据
+% 找到第一个出现的 S1 索引
+firstS1Idx = find(zoneLabel == "S1", 1, 'first');
+if ~isempty(firstS1Idx) && firstS1Idx > 1
+    % 将之前的标签全部设为 S1
+    zoneLabel(1:firstS1Idx-1) = "S1";
+    
+    % 将之前的坐标赋值为第一个 S1 出现时的坐标
+    positions(1:firstS1Idx-1, :) = repmat(positions(firstS1Idx, :), firstS1Idx-1, 1);
+    positions_smoothed(1:firstS1Idx-1, :) = repmat(positions_smoothed(firstS1Idx, :), firstS1Idx-1, 1);
+    
+    % 重新赋值 mousePositions
+    mousePositions = positions_smoothed;
+end
+% 保存清洗后的轨迹结果
+save("mouseTrajectory.mat", "positions", "positions_smoothed");
+if ~exist('FrameCount2', 'dir'), mkdir('FrameCount2'); end
+movefile('mouseTrajectory.mat', 'FrameCount2', 'f');
+fprintf('轨迹数据清洗并存入 FrameCount2\n');
 
 %%
 S1_start = []; S1_end = [];
@@ -48,8 +52,6 @@ for i = 1:TotalFrames
 
    if (i == 1) || ((zoneLabel(i-1) == "S2") && (zoneLabel(i) == "S1"))
        S1_start = vertcat(S1_start,i);
-   % elseif ((zoneLabel(i-1) == "S1 Terminal") && (zoneLabel(i) == "S1"))
-   %     S1_start_correctTrials01 = vertcat(S1_start_correctTrials01,i);
    elseif (zoneLabel(i-1) == "S1") && (zoneLabel(i) == "S2")
        S1_end = vertcat(S1_end,i-1);
        S2_start = vertcat(S2_start, i);
