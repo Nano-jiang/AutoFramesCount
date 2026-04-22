@@ -151,7 +151,7 @@ plot(x,y);
 
 %% 用高斯滤波对小鼠路径进行平滑处理
 % 高斯滤波器
-sigma = 1.5; % 标准差, 之前是1，但是1.5更加合适
+sigma = 3; % 标准差
 positions_smoothed(:, 1) = imgaussfilt(positions(:, 1), sigma);
 positions_smoothed(:, 2) = imgaussfilt(positions(:, 2), sigma);
 
